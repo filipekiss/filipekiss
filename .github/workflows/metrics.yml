@@ -27,6 +27,7 @@ jobs:
           template: classic
           base: header
           config_timezone: ${{ vars.USER_TIMEZONE }}
+          base_indepth: true
 
       - name: activities
         if: ${{ success() || failure() }}
@@ -64,7 +65,7 @@ jobs:
           base: ""
           config_timezone: ${{ vars.USER_TIMEZONE }}
           plugin_isocalendar: yes
-          plugin_isocalendar_duration: half-year
+          plugin_isocalendar_duration: full-year
 
       - name: repositories
         if: ${{ success() || failure() }}
