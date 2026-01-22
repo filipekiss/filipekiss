@@ -1,0 +1,85 @@
+name: Metrics
+on:
+  # Schedule updates
+  schedule: [{cron: "0 */6 * * *"}]
+  # Lines below let you run workflow manually and on each commit (optional)
+  workflow_dispatch:
+  push: {branches: ["main"]}
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: header
+        if: ${{ success() || failure() }}
+        uses: lowlighter/metrics@latest
+        with:
+          filename: header.svg
+          output_action: gist
+          committer_gist: ${{ vars.GIST_ID }}
+          # You'll need to setup a personal token in your secrets.
+          token: ${{ secrets.METRICS_TOKEN }}
+          # GITHUB_TOKEN is a special auto-generated token used for commits
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Options
+          user: ${{ vars.USERNAME }}
+          template: classic
+          base: header
+          config_timezone: ${{ vars.USER_TIMEZONE }}
+
+      - name: activities
+        if: ${{ success() || failure() }}
+        uses: lowlighter/metrics@latest
+        with:
+          filename: activities.svg
+          output_action: gist
+          committer_gist: ${{ vars.GIST_ID }}
+          # You'll need to setup a personal token in your secrets.
+          token: ${{ secrets.METRICS_TOKEN }}
+          # GITHUB_TOKEN is a special auto-generated token used for commits
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Options
+          user: ${{ vars.USERNAME }}
+          template: classic
+          base: activity, community
+          config_timezone: ${{ vars.USER_TIMEZONE }}
+
+      - name: calendar
+        if: ${{ success() || failure() }}
+        uses: lowlighter/metrics@latest
+        with:
+          filename: calendar.svg
+          output_action: gist
+          committer_gist: ${{ vars.GIST_ID }}
+          # You'll need to setup a personal token in your secrets.
+          token: ${{ secrets.METRICS_TOKEN }}
+          # GITHUB_TOKEN is a special auto-generated token used for commits
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Options
+          user: ${{ vars.USERNAME }}
+          template: classic
+          base: ""
+          config_timezone: ${{ vars.USER_TIMEZONE }}
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+
+      - name: repositories
+        if: ${{ success() || failure() }}
+        uses: lowlighter/metrics@latest
+        with:
+          filename: repositories.svg
+          output_action: gist
+          committer_gist: ${{ vars.GIST_ID }}
+          # You'll need to setup a personal token in your secrets.
+          token: ${{ secrets.METRICS_TOKEN }}
+          # GITHUB_TOKEN is a special auto-generated token used for commits
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Options
+          user: ${{ vars.USERNAME }}
+          template: classic
+          base: repositories
+          config_timezone: ${{ vars.USER_TIMEZONE }}
